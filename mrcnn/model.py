@@ -1210,6 +1210,7 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     # Load image and mask
     image = dataset.load_image(image_id)
     mask, class_ids = dataset.load_mask(image_id)
+    print(f">> Loaded image of shape {image.shape} with mask of shape {mask.shape} with sum {mask.sum()}")
     original_shape = image.shape
     image, window, scale, padding, crop = utils.resize_image(
         image,
@@ -1219,6 +1220,8 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
         mode=config.IMAGE_RESIZE_MODE)
     mask = utils.resize_mask(mask, scale, padding, crop)
 
+    print(f">> (1) Mask has shape {mask.shape} and sum {mask.sum()}")
+
     # Random horizontal flips.
     # TODO: will be removed in a future update in favor of augmentation
     if augment:
@@ -1226,6 +1229,8 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
         if random.randint(0, 1):
             image = np.fliplr(image)
             mask = np.fliplr(mask)
+
+    print(f">> (2) Mask has shape {mask.shape} and sum {mask.sum()}")
 
     # Augmentation
     # This requires the imgaug lib (https://github.com/aleju/imgaug)
@@ -1258,6 +1263,8 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
         # Change mask back to bool
         mask = mask.astype(np.bool)
 
+    print(f">> (3) Mask has shape {mask.shape} and sum {mask.sum()}")
+
     # Note that some boxes might be all zeros if the corresponding mask got cropped out.
     # and here is to filter them out
     _idx = np.sum(mask, axis=(0, 1)) > 0
@@ -1282,6 +1289,8 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     # Image meta data
     image_meta = compose_image_meta(image_id, original_shape, image.shape,
                                     window, scale, active_class_ids)
+
+    print(f">> (4) Mask has shape {mask.shape} and sum {mask.sum()}")
 
     return image, image_meta, class_ids, bbox, mask
 
