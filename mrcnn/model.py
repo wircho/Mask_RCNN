@@ -1715,7 +1715,7 @@ def data_generator(dataset, config, shuffle=True, augment=False, augmentation=No
 
             print(">> IMAGE SHAPE: " + str(image.shape))
             print(">> MASKS SHAPE: " + str(gt_masks.shape))
-            print(">> MASKS SUM: " + str(gt_masks.summ()))
+            print(">> MASKS SUM: " + str(gt_masks.sum()))
             print(">> MASKS: ")
             print(gt_masks)
             print(gt_class_ids)
