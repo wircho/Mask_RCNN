@@ -1701,15 +1701,22 @@ def data_generator(dataset, config, shuffle=True, augment=False, augmentation=No
 
             # If the image source is not to be augmented pass None as augmentation
             if dataset.image_info[image_id]['source'] in no_augmentation_sources:
+                print(">> CASE 1")
                 image, image_meta, gt_class_ids, gt_boxes, gt_masks = \
                 load_image_gt(dataset, config, image_id, augment=augment,
                               augmentation=None,
                               use_mini_mask=config.USE_MINI_MASK)
             else:
+                print(">> CASE 2")
                 image, image_meta, gt_class_ids, gt_boxes, gt_masks = \
                     load_image_gt(dataset, config, image_id, augment=augment,
                                 augmentation=augmentation,
                                 use_mini_mask=config.USE_MINI_MASK)
+
+            print(">> IMAGE SHAPE: " + str(image.shape))
+            print(">> MASKS: ")
+            print(gt_masks)
+            print(gt_class_ids)
 
             # Skip images that have no instances. This can happen in cases
             # where we train on a subset of classes and the image doesn't
