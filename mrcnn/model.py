@@ -1805,6 +1805,7 @@ def data_generator(dataset, config, shuffle=True, augment=False, augmentation=No
         except (GeneratorExit, KeyboardInterrupt):
             raise
         except:
+            print("ERROR!!!")
             # Log it and skip the image
             logging.exception("Error processing image {}".format(
                 dataset.image_info[image_id]))
@@ -2361,11 +2362,13 @@ class MaskRCNN():
         else:
             workers = multiprocessing.cpu_count()
 
+        print("STEPS_PER_EPOCH = " + str(self.config.STEPS_PER_EPOCH))
+
         self.keras_model.fit_generator(
             train_generator,
             # initial_epoch=self.epoch,
             epochs=epochs,
-            # steps_per_epoch=self.config.STEPS_PER_EPOCH,
+            steps_per_epoch=self.config.STEPS_PER_EPOCH,
             callbacks=callbacks,
             # validation_data=val_generator,
             # validation_steps=self.config.VALIDATION_STEPS,
