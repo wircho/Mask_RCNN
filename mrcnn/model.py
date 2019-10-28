@@ -1708,11 +1708,11 @@ def data_generator(dataset, config, shuffle=True, augment=False, augmentation=No
                                 augmentation=augmentation,
                                 use_mini_mask=config.USE_MINI_MASK)
 
-            # Skip images that have no instances. This can happen in cases
-            # where we train on a subset of classes and the image doesn't
-            # have any of the classes we care about.
-            if not np.any(gt_class_ids > 0):
-                continue
+            # # Skip images that have no instances. This can happen in cases
+            # # where we train on a subset of classes and the image doesn't
+            # # have any of the classes we care about.
+            # if not np.any(gt_class_ids > 0):
+            #     continue
 
             # RPN Targets
             rpn_match, rpn_bbox = build_rpn_targets(image.shape, anchors,
